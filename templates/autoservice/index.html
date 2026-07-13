@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>AutoService Home</h1>
+    <p>Welcome to "AutoService" <strong>{{ user.get_username }}</strong>!</p>
+    <h2>Dynamic content</h2>
+    <p>The autoservice has the following record counts:</p>
+    <ul>
+        <li><strong>Orders:</strong> {{ num_orders }}</li>
+        <li><strong>Active Orders:</strong> {{ active_orders_count }}</li>
+    </ul>
+
+    <p>You have visited this page
+        {{ num_visits }} time{{ num_visits|pluralize }}.
+    </p>
+
+{% endblock %}
