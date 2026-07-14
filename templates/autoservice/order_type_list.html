@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>
+    Order types
+    <a href="{% url 'autoservice:order-type-create' %}" class="btn btn-primary link-to-page">
+      Create
+    </a>
+  </h1>
+
+  {% if order_type_list %}
+    <table class="table">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Update</th>
+        <th>Delete</th>
+      </tr>
+
+      {% for order_type in order_type_list %}
+        <tr>
+          <td>
+              {{ order_type.id }}
+          </td>
+          <td>
+              {{ order_type.name }}
+          </td>
+          <td>
+              <a href="{% url 'autoservice:order-type-update' pk=order_type.id %}">
+                Update
+              </a>
+            </td>
+{#            <td>#}
+{#              <a style="color: red"#}
+{#                href="{% url 'autoservice:master-qualification-list' pk=order_type.id %}">#}
+{#                Delete#}
+{#              </a>#}
+{#            </td>#}
+        </tr>
+      {% endfor %}
+    </table>
+
+  {% else %}
+      <p>There are no Order Types.</p>
+  {% endif %}
+{% endblock %}

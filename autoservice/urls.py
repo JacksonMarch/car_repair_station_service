@@ -4,6 +4,8 @@ from .views import (
     index,
     OrderListView,
     OrderTypeListView,
+    OrderTypeCreateView,
+    OrderTypeUpdateView,
     TechnicianListView,
     ServiceAdvisorListView,
     MasterQualificationListView,
@@ -19,5 +21,7 @@ urlpatterns = [
     path("service-advisor/", ServiceAdvisorListView.as_view(), name="service-advisor-list"),
     path("master-qualification/", MasterQualificationListView.as_view(), name="master-qualification-list"),
     path("order-type/", OrderTypeListView.as_view(), name="order-type-list"),
+    path("order-type/create/", OrderTypeCreateView.as_view(), name="order-type-create"),
+    path("order-type/<int:pk>/update/", OrderTypeUpdateView.as_view(), name="order-type-update"),
 
 ]
