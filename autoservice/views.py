@@ -35,7 +35,6 @@ class OrderListView(LoginRequiredMixin, generic.ListView):
     )
 
 
-
 class TechnicianListView(LoginRequiredMixin, generic.ListView):
     model = Technician
 
