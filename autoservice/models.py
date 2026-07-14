@@ -27,14 +27,13 @@ class ServiceAdvisor(AbstractUser):
 
     class Meta:
         ordering = ["username"]
-        verbose_name = "manager"
-        verbose_name_plural = "managers"
+
 
     def __str__(self):
         return f"{self.username} ({self.first_name} {self.last_name})"
 
     def get_absolute_url(self):
-        return reverse("autoservice:manager-detail", kwargs={"pk": self.pk})
+        return reverse("autoservice:service-advisor-detail", kwargs={"pk": self.pk})
 
 
 class Technician(models.Model):
