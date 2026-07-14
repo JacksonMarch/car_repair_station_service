@@ -1,17 +1,26 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models import Prefetch
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Order, Technician, ServiceAdvisor, MasterQualification, OrderType
+from .models import (
+    Order,
+    Technician,
+    ServiceAdvisor,
+    MasterQualification,
+    OrderType
+)
 
 
 @login_required
 def index(request):
     num_orders = Order.objects.count()
-    active_orders_count = Order.objects.filter(technician__isnull=False).count()
+    active_orders_count = Order.objects.filter(
+        technician__isnull=False
+    ).count()
 
     num_visits = request.session.get("num_visits", 0)
     request.session["num_visits"] = num_visits + 1
@@ -49,6 +58,33 @@ class OrderListView(LoginRequiredMixin, generic.ListView):
 class TechnicianListView(LoginRequiredMixin, generic.ListView):
     model = Technician
 
+    def get_queryset(self):
+        all_orders = Order.objects.all()
+        return Technician.objects.prefetch_related(
+            Prefetch("orders", queryset=all_orders, to_attr="assigned_orders")
+        )
+
+
+class TechnicianDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Technician
+
+
+class TechnicianCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Technician
+    fields = "__all__"
+    success_url = reverse_lazy("autoservice:technician-list")
+
+
+class TechnicianUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Technician
+    fields = "__all__"
+    success_url = reverse_lazy("autoservice:technician-list")
+
+
+class TechnicianDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Technician
+    success_url = reverse_lazy("autoservice:technician-list")
+
 
 class ServiceAdvisorListView(LoginRequiredMixin, generic.ListView):
     model = ServiceAdvisor
@@ -60,10 +96,56 @@ class ServiceAdvisorListView(LoginRequiredMixin, generic.ListView):
         return ServiceAdvisor.objects.prefetch_related("orders")
 
 
+class ServiceAdvisorDetailView(LoginRequiredMixin, generic.DetailView):
+    model = ServiceAdvisor
+    template_name = "autoservice/service_advisor_detail.html"
+    context_object_name = "service_advisor"
+
+
+class ServiceAdvisorCreateView(LoginRequiredMixin, generic.CreateView):
+    model = ServiceAdvisor
+    fields = "__all__"
+    success_url = reverse_lazy("autoservice:service-advisor-list")
+    template_name = "autoservice/service_advisor_form.html"
+
+
+class ServiceAdvisorUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = ServiceAdvisor
+    fields = "__all__"
+    success_url = reverse_lazy("autoservice:service-advisor-list")
+    template_name = "autoservice/service_advisor_form.html"
+
+
+class ServiceAdvisorDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = ServiceAdvisor
+    success_url = reverse_lazy("autoservice:service-advisor-list")
+    template_name = "autoservice/service_advisor_confirm_delete.html"
+
+
 class MasterQualificationListView(LoginRequiredMixin, generic.ListView):
     model = MasterQualification
     template_name = "autoservice/master_qualification_list.html"
     context_object_name = "master_qualification_list"
+
+
+class MasterQualificationCreateView(LoginRequiredMixin, generic.CreateView):
+    model = MasterQualification
+    fields = "__all__"
+    success_url = reverse_lazy("autoservice:master-qualification-list")
+    template_name = "autoservice/master_qualification_form.html"
+
+
+class MasterQualificationUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = MasterQualification
+    fields = "__all__"
+    success_url = reverse_lazy("autoservice:master-qualification-list")
+    template_name = "autoservice/master_qualification_form.html"
+
+
+class MasterQualificationDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = MasterQualification
+    success_url = reverse_lazy("autoservice:master-qualification-list")
+    template_name = "autoservice/master_qualification_confirm_delete.html"
 
 
 class OrderTypeListView(LoginRequiredMixin, generic.ListView):
@@ -76,12 +158,18 @@ class OrderTypeListView(LoginRequiredMixin, generic.ListView):
 class OrderTypeCreateView(LoginRequiredMixin, generic.CreateView):
     model = OrderType
     fields = "__all__"
-    success_url = reverse_lazy("autoservice:order_type_list")
+    success_url = reverse_lazy("autoservice:order-type-list")
     template_name = "autoservice/order_type_form.html"
 
 
 class OrderTypeUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = OrderType
     fields = "__all__"
-    success_url = reverse_lazy("autoservice:order_type_list")
+    success_url = reverse_lazy("autoservice:order-type-list")
     template_name = "autoservice/order_type_form.html"
+
+
+class OrderTypeDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = OrderType
+    success_url = reverse_lazy("autoservice:order-type-list")
+    template_name = "autoservice/order_type_confirm_delete.html"

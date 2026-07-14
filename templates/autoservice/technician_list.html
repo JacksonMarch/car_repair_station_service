@@ -4,6 +4,9 @@
 {% block content %}
   <h1>
     Technician list
+      <a href="{% url 'autoservice:technician-create' %}" class="btn btn-primary link-to-page">
+      Create
+    </a>
   </h1>
     {% if technician_list %}
     <table class="table">
@@ -20,7 +23,15 @@
         <td>{{ technician.first_name }} {{ technician.last_name }}</td>
         <td>{{ technician.master_qualification }}</td>
         <td>{{ technician.experience }}</td>
-        <td>{{ technician.orders }}</td>
+        <td>
+          {% if technician.assigned_orders %}
+            <a href="{% url 'autoservice:technician-detail' technician.pk %}" class="btn btn-primary">
+                  Orders details ({{ technician.assigned_orders|length }})
+            </a>
+          {% else %}
+            <span class="text-success font-weight-bold">Free</span>
+          {% endif %}
+        </td>
       </tr>
     {% endfor %}
     </table>

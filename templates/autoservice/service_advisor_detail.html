@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>
+    {{ service_advisor.first_name }} {{ service_advisor.last_name }}
+
+    <a href="{% url 'autoservice:service-advisor-delete' pk=service_advisor.id %}" class="btn btn-danger link-to-page">
+      Delete
+    </a>
+
+    <a href="{% url 'autoservice:service-advisor-update' pk=service_advisor.id %}" class="btn btn-secondary link-to-page">
+      Update
+    </a>
+  </h1>
+  <h2>
+    Account information:
+  </h2>
+    <table class="table">
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <th>Active orders</th>
+      <th>Email</th>
+      <th>Is staff</th>
+      <th>Is active</th>
+
+    </tr>
+    <tr>
+      <td>{{ service_advisor.id }}</td>
+      <td>{{ service_advisor.username }}</td>
+      <td>{{ service_advisor.orders.count}}</td>
+      <td>{{ service_advisor.email }}</td>
+      <td>{{ service_advisor.is_staff }}</td>
+      <td>{{ service_advisor.is_active }}</td>
+    </tr>
+    </table>
+{% endblock %}
