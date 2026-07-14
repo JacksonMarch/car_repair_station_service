@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>
+    Qualifications
+    <a href="{% url 'autoservice:master-qualification-create' %}" class="btn btn-primary link-to-page">
+      Create
+    </a>
+  </h1>
+
+  {% if master_qualification_list %}
+    <table class="table">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Update</th>
+        <th>Delete</th>
+      </tr>
+
+      {% for master_qualification in master_qualification_list %}
+        <tr>
+          <td>
+              {{ master_qualification.id }}
+          </td>
+          <td>
+              {{ master_qualification.name }}
+          </td>
+          <td>
+              <a href="{% url 'autoservice:master-qualification-update' pk=master_qualification.id %}">
+                Update
+              </a>
+            </td>
+            <td>
+              <a style="color: red"
+                href="{% url 'autoservice:master-qualification-delete' pk=master_qualification.id %}">
+                Delete
+              </a>
+            </td>
+        </tr>
+      {% endfor %}
+    </table>
+
+  {% else %}
+      <p>There are no Masters Qualifications.</p>
+  {% endif %}
+{% endblock %}
