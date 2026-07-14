@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+  <h1>
+    Technician list
+  </h1>
+    {% if technician_list %}
+    <table class="table">
+      <tr>
+        <th>ID</th>
+        <th>Full name</th>
+        <th>Qualification</th>
+        <th>Experience</th>
+        <th>Active orders</th>
+      </tr>
+    {% for technician in technician_list %}
+      <tr>
+        <td>{{ technician.id }}</td>
+        <td>{{ technician.first_name }} {{ technician.last_name }}</td>
+        <td>{{ technician.master_qualification }}</td>
+        <td>{{ technician.experience }}</td>
+        <td>{{ technician.orders }}</td>
+      </tr>
+    {% endfor %}
+    </table>
+    {% else %}
+      <p>There are no technicians on autoservice</p>
+    {% endif %}
+{% endblock %}
