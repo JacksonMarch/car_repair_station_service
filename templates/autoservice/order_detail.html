@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>
+    Order full information:
+  </h2>
+
+    <table class="table">
+    <tr>
+        <th>ID</th>
+        <th>Created at</th>
+        <th>Fullname</th>
+        <th>Car</th>
+        <th>Phone number</th>
+        <th>Complaint</th>
+        <th>Order type</th>
+        <th>Service advisor</th>
+        <th>Technician</th>
+    </tr>
+    <tr>
+        <td>{{ order.id }}</td>
+        <td>{{ order.created_at }}</td>
+        <td>{{ order.client_full_name }}</td>
+        <td>{{ order.car_model }} {{ order.car_year }}</td>
+        <td>{{ order.client_number }}</td>
+        <td>{{ order.complaint }}</td>
+        <td>{{ order.order_type }}</td>
+        <td>{{ order.service_advisor }}</td>
+        <td>{{ order.technician }}</td>
+    </tr>
+    </table>
+    {% if order.is_archived %}
+      <form action="{% url 'autoservice:order-restore' pk=order.id %}" method="post" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success link-to-page">
+            Restore
+        </button>
+        <a href="{% url 'autoservice:order-archive-list' %}" class="btn btn-outline-secondary">
+          &larr; Back
+        </a>
+      </form>
+    {% else %}
+    <a href="{% url 'autoservice:order-list' %}" class="btn btn-outline-secondary">
+      &larr; Back
+    </a>
+    <a href="{% url 'autoservice:order-delete' pk=order.id %}?next={{ request.path }}" class="btn btn-danger link-to-page">
+      Archive
+    </a>
+    <a href="{% url 'autoservice:order-update' pk=order.id %}" class="btn btn-secondary link-to-page">
+      Update
+    </a>
+    {% endif %}
+{% endblock %}

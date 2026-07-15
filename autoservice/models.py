@@ -60,6 +60,7 @@ class Order(models.Model):
     car_year = models.CharField(max_length=10)
     created_at = models.DateTimeField(auto_now_add=True)
     order_type = models.ForeignKey(OrderType, on_delete=models.SET_NULL, null=True)
+    is_archived = models.BooleanField(default=False)
     service_advisor = models.ForeignKey(
         ServiceAdvisor,
         on_delete=models.SET_NULL,
