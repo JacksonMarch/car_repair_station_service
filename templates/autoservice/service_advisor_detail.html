@@ -4,13 +4,6 @@
   <h1>
     {{ service_advisor.first_name }} {{ service_advisor.last_name }}
 
-    <a href="{% url 'autoservice:service-advisor-delete' pk=service_advisor.id %}" class="btn btn-danger link-to-page">
-      Delete
-    </a>
-
-    <a href="{% url 'autoservice:service-advisor-update' pk=service_advisor.id %}" class="btn btn-secondary link-to-page">
-      Update
-    </a>
   </h1>
   <h2>
     Account information:
@@ -34,4 +27,14 @@
       <td>{{ service_advisor.is_active }}</td>
     </tr>
     </table>
+    <a href="{% url 'autoservice:service-advisor-list' %}" class="btn btn-outline-secondary">
+      &larr; Back
+    </a>
+    <a href="{% url 'autoservice:service-advisor-delete' pk=service_advisor.id %}?next={{ request.path }}" class="btn btn-danger link-to-page">
+      Delete
+    </a>
+
+    <a href="{% url 'autoservice:service-advisor-update' pk=service_advisor.id %}" class="btn btn-secondary link-to-page">
+      Update
+    </a>
 {% endblock %}

@@ -22,7 +22,10 @@
       <td>{{ technician.experience }}</td>
     </tr>
     </table>
-    <a href="{% url 'autoservice:technician-delete' pk=technician.id %}" class="btn btn-danger link-to-page">
+    <a href="{% url 'autoservice:technician-list' %}" class="btn btn-outline-secondary">
+      &larr; Back
+    </a>
+    <a href="{% url 'autoservice:technician-delete' pk=technician.id %}?next={{ request.path }}" class="btn btn-danger link-to-page">
       Delete
     </a>
 
