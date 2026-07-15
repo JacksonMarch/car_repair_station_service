@@ -21,7 +21,7 @@
       <tr>
         <td>{{ service_advisor.id }}</td>
         <td>{{ service_advisor.first_name }} {{ service_advisor.last_name }}</td>
-        <td><a href="{{ service_advisor.get_absolute_url }}">{{ service_advisor.username }} {% if user == driver %} (Me){% endif %}</a></td>
+        <td><a href="{{ service_advisor.get_absolute_url }}">{{ service_advisor.username }} {% if user == service_advisor %} (Me){% endif %}</a></td>
         <td>{{ service_advisor.email }}</td>
         <td>
           <a href="{% url 'autoservice:order-list' %}?service_advisor_id={{ service_advisor.id }}">View orders</a>
