@@ -3,10 +3,14 @@
 
 {% block content %}
   <h1>
-    Order List
-{#    <a href="{% url 'autoservice:order-create' %}" class="btn btn-primary link-to-page">#}
-{#      Create#}
-{#    </a>#}
+    {% if is_archive_page %}
+      Orders Archive
+    {% else %}
+      Orders List
+    <a href="{% url 'autoservice:order-create' %}" class="btn btn-primary link-to-page">
+      Create
+    </a>
+    {% endif %}
   </h1>
 {#  <form method="get" action="" class="form-inline">#}
 {#    {{ search_form|crispy }}#}
@@ -26,7 +30,7 @@
       </tr>
     {% for order in order_list %}
       <tr>
-        <td>{{ order.id }}</td>
+        <td><a href="{% url "autoservice:order-detail" pk=order.id %}">{{ order.id }}</a></td>
         <td>{{ order.created_at }}</td>
         <td>{{ order.car_model }} {{ order.car_year }}</td>
         <td>{{ order.client_full_name }}</td>
