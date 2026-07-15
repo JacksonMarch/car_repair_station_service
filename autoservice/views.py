@@ -1,9 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Prefetch
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.views import generic
+from django.views import generic, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import (
@@ -48,15 +48,43 @@ class OrderListView(LoginRequiredMixin, generic.ListView):
             "order_type",
             "service_advisor",
             "technician"
-        )
+        ).filter(is_archived=False)
         service_advisor_id = self.request.GET.get("service_advisor_id")
         if service_advisor_id:
             queryset = queryset.filter(service_advisor_id=service_advisor_id)
         return queryset
 
 
+class OrderDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Order
+
+
+class OrderCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Order
+    fields = "__all__"
+
+
+class OrderUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Order
+    fields = "__all__"
+
+
+class OrderDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Order
+    success_url = reverse_lazy("autoservice:order-list")
+
+    def form_valid(self, form):
+        success_url = self.get_success_url()
+        self.object = self.get_object()
+        self.object.is_archived = True
+        self.object.save()
+        return HttpResponseRedirect(success_url)
+
+
 class TechnicianListView(LoginRequiredMixin, generic.ListView):
     model = Technician
+    paginate_by = 5
+
 
     def get_queryset(self):
         all_orders = Order.objects.all()
@@ -69,16 +97,28 @@ class TechnicianDetailView(LoginRequiredMixin, generic.DetailView):
     model = Technician
 
 
+class TechnicianOrderListView(LoginRequiredMixin, generic.ListView):
+    model = Technician
+    template_name = "autoservice/technician_order.html"
+
+    def get_queryset(self):
+        technician_id = self.kwargs["pk"]
+        return Order.objects.filter(technician_id=technician_id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["technician"] = Technician.objects.get(pk=self.kwargs["pk"])
+        return context
+
+
 class TechnicianCreateView(LoginRequiredMixin, generic.CreateView):
     model = Technician
     fields = "__all__"
-    success_url = reverse_lazy("autoservice:technician-list")
 
 
 class TechnicianUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Technician
     fields = "__all__"
-    success_url = reverse_lazy("autoservice:technician-list")
 
 
 class TechnicianDeleteView(LoginRequiredMixin, generic.DeleteView):
@@ -173,3 +213,32 @@ class OrderTypeDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = OrderType
     success_url = reverse_lazy("autoservice:order-type-list")
     template_name = "autoservice/order_type_confirm_delete.html"
+
+
+@login_required
+def profile_redirect_view(request):
+    return redirect('autoservice:service-advisor-detail', pk=request.user.pk)
+
+
+class OrderArchiveListView(LoginRequiredMixin, generic.ListView):
+    model = Order
+    template_name = "autoservice/order_list.html"
+    paginate_by = 5
+
+    def get_queryset(self):
+        return Order.objects.select_related(
+            "order_type", "service_advisor", "technician"
+        ).filter(is_archived=True)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["is_archive_page"] = True
+        return context
+
+
+class OrderRestoreView(View):
+    def post(self, request, pk):
+        order = get_object_or_404(Order, pk=pk)
+        order.is_archived = False
+        order.save()
+        return redirect("autoservice:order-archive-list")

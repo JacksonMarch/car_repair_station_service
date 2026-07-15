@@ -5,6 +5,7 @@
     {{ technician.first_name }} {{ technician.last_name }}
   </h1>
       <p>Qualification: {{ technician.master_qualification }}</p>
+
   <h2>
     Active orders:
 {##}
@@ -40,4 +41,7 @@
   {% endfor %}
 
     </table>
+    <a href="{% url 'autoservice:technician-list' %}" class="btn btn-outline-secondary">
+      &larr; Back
+    </a>
 {% endblock %}
