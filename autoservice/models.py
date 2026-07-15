@@ -48,6 +48,9 @@ class Technician(models.Model):
     def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.master_qualification})"
 
+    def get_absolute_url(self):
+        return reverse("autoservice:technician-detail", kwargs={"pk": self.pk})
+
 
 class Order(models.Model):
     client_full_name = models.CharField(max_length=60)
@@ -60,12 +63,14 @@ class Order(models.Model):
     service_advisor = models.ForeignKey(
         ServiceAdvisor,
         on_delete=models.SET_NULL,
+        blank=True,
         null=True,
         related_name="orders"
     )
     technician = models.ForeignKey(
         Technician,
         on_delete=models.SET_NULL,
+        blank=True,
         null=True,
         related_name="orders"
     )
@@ -75,3 +80,6 @@ class Order(models.Model):
 
     def __str__(self):
         return f"{self.created_at} {self.car_model} {self.car_year} {self.client_full_name} {self.client_number}"
+
+    def get_absolute_url(self):
+        return reverse("autoservice:order-detail", kwargs={"pk": self.pk})

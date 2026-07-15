@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>
+    {{ technician.first_name }} {{ technician.last_name }}
+  </h1>
+      <p>Qualification: {{ technician.master_qualification }}</p>
+  <h2>
+    Active orders:
+{##}
+{#    {% if car in user.cars.all %}#}
+{#      <a href="{% url 'taxi:toggle-car-assign' pk=car.id %}" class="btn btn-danger link-to-page">#}
+{#        Delete me from this car#}
+{#      </a>#}
+{#    {% else %}#}
+{#      <a href="{% url 'taxi:toggle-car-assign' pk=car.id %}" class="btn btn-success link-to-page">#}
+{#        Assign me from this car#}
+{#      </a>#}
+{#    {% endif %}#}
+
+  </h2>
+    <table class="table">
+    <tr>
+      <th>ID</th>
+      <th>Car</th>
+      <th>Complaint</th>
+      <th>Fullname</th>
+      <th>Order type</th>
+      <th>Service advisor</th>
+    </tr>
+  {% for order in technician.orders.all %}
+    <tr>
+      <td>{{ order.id }}</td>
+      <td>{{ order.car_model }} {{ order.car_year }}</td>
+      <td>{{ order.complaint }}</td>
+      <td>{{ order.client_full_name }}</td>
+      <td>{{ order.order_type }}</td>
+      <td>{{ order.service_advisor }}</td>
+    </tr>
+  {% endfor %}
+
+    </table>
+{% endblock %}

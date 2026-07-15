@@ -20,12 +20,12 @@
     {% for technician in technician_list %}
       <tr>
         <td>{{ technician.id }}</td>
-        <td>{{ technician.first_name }} {{ technician.last_name }}</td>
+        <td><a href="{% url 'autoservice:technician-detail' technician.pk %}">{{ technician.first_name }} {{ technician.last_name }}</a></td>
         <td>{{ technician.master_qualification }}</td>
         <td>{{ technician.experience }}</td>
         <td>
           {% if technician.assigned_orders %}
-            <a href="{% url 'autoservice:technician-detail' technician.pk %}" class="btn btn-primary">
+            <a href="{% url 'autoservice:technician-order' technician.pk %}" class="btn btn-primary">
                   Orders details ({{ technician.assigned_orders|length }})
             </a>
           {% else %}
