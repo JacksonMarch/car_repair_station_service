@@ -9,7 +9,9 @@
         <li><strong>Orders:</strong> {{ num_orders }}</li>
         <li><strong>Active Orders:</strong> {{ active_orders_count }}</li>
     </ul>
-
+    <a href="{% url 'autoservice:order-create' %}" class="btn btn-primary">
+      Create Order
+    </a>
     <p>You have visited this page
         {{ num_visits }} time{{ num_visits|pluralize }}.
     </p>
