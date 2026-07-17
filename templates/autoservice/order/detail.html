@@ -3,6 +3,19 @@
 {% block content %}
   <h2>
     Order full information:
+    {% if order in user.orders.all %}
+      <a href="{% url 'autoservice:toggle-order-assign' pk=order.id %}" class="btn btn-danger link-to-page">
+        Delete me from this order
+      </a>
+    {% elif order.service_advisor != None %}
+      <a href="{% url 'autoservice:toggle-order-assign' pk=order.id %}" class="btn btn-secondary link-to-page">
+        Assign me from this order
+      </a>
+    {% else %}
+      <a href="{% url 'autoservice:toggle-order-assign' pk=order.id %}" class="btn btn-success link-to-page">
+        Assign me from this order
+      </a>
+    {% endif %}
   </h2>
 
     <table class="table">
