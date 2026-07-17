@@ -44,13 +44,14 @@ class TechnicianSearchForm(forms.Form):
 
 
 class OrderForm(forms.ModelForm):
-    order_type = forms.ModelMultipleChoiceField(
+    order_types = forms.ModelMultipleChoiceField(
         queryset=OrderType.objects.all(),
         widget=forms.CheckboxSelectMultiple,
     )
-    technician = forms.ModelMultipleChoiceField(
+    technicians = forms.ModelMultipleChoiceField(
         queryset=Technician.objects.all(),
         widget=forms.CheckboxSelectMultiple,
+        required=False,
     )
 
     class Meta:

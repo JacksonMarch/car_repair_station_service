@@ -37,9 +37,21 @@
         <td>{{ order.car_model }} {{ order.car_year }}</td>
         <td>{{ order.client_full_name }}</td>
         <td>{{ order.client_number }}</td>
-        <td>{{ order.order_type }}</td>
+        <td>
+          {% for type in order.order_types.all %}
+            {{ type.name }}{% if not forloop.last %}, {% endif %}
+          {% empty %}
+            <span class="text-muted">Not assigned</span>
+            {% endfor %}
+        </td>
         <td>{{ order.service_advisor }}</td>
-        <td>{{ order.technician }}</td>
+        <td>
+          {% for tech in order.technicians.all %}
+            {{ tech.first_name }} {{ tech.last_name }}{% if not forloop.last %}, {% endif %}
+          {% empty %}
+            <span class="text-muted">Not assigned</span>
+            {% endfor %}
+        </td>
       </tr>
     {% endfor %}
 

@@ -26,7 +26,6 @@ class OrderAdmin(admin.ModelAdmin):
         "client_full_name",
         "car_model",
         "car_year",
-        "order_type",
         "service_advisor",
         "created_at"
     )
@@ -37,13 +36,20 @@ class OrderAdmin(admin.ModelAdmin):
         "complaint"
     )
     list_filter = (
-        "order_type",
+        "order_types",
         "service_advisor",
-        "technician",
+        "technicians",
         "created_at"
     )
     date_hierarchy = "created_at"
 
+    def display_technicians(self, obj):
+        return ", ".join([f"{tech.first_name} {tech.last_name}" for tech in obj.technicians.all()])
+    display_technicians.short_description = "Technicians"
+
+    def display_order_types(selfself, obj):
+        return ", ".join([order_type.name for order_type in obj.order_types.all()])
+    display_order_types.short_description = "Order Types"
 
 admin.site.register(Technician)
 admin.site.register(OrderType)

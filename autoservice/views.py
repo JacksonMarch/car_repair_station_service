@@ -21,7 +21,7 @@ from .models import (
 def index(request):
     num_orders = Order.objects.count()
     active_orders_count = Order.objects.filter(
-        technician__isnull=False
+        technicians__isnull=False
     ).count()
 
     num_visits = request.session.get("num_visits", 0)
@@ -53,9 +53,10 @@ class OrderListView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         queryset = Order.objects.select_related(
-            "order_type",
             "service_advisor",
-            "technician"
+        ).prefetch_related(
+            "order_types",
+            "technicians"
         ).filter(is_archived=False)
         client_full_name = self.request.GET.get("client_full_name")
         if client_full_name:
@@ -79,7 +80,7 @@ class OrderCreateView(LoginRequiredMixin, generic.CreateView):
 
 class OrderUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Order
-    fields = "__all__"
+    form_class = OrderForm
     template_name = "autoservice/order/form.html"
 
 
@@ -256,10 +257,11 @@ class OrderArchiveListView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         queryset = Order.objects.select_related(
-            "order_type",
             "service_advisor",
-            "technician"
-        ).filter(is_archived=True)
+        ).prefetch_related(
+            "order_types",
+            "technicians"
+        ).filter(is_archived=False)
         client_full_name = self.request.GET.get("client_full_name")
         if client_full_name:
             queryset = queryset.filter(client_full_name__icontains=client_full_name)

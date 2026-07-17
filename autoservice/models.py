@@ -59,7 +59,7 @@ class Order(models.Model):
     car_model = models.CharField(max_length=50)
     car_year = models.CharField(max_length=10)
     created_at = models.DateTimeField(auto_now_add=True)
-    order_type = models.ForeignKey(OrderType, on_delete=models.SET_NULL, null=True)
+    order_types = models.ManyToManyField(OrderType, related_name="orders")
     is_archived = models.BooleanField(default=False)
     service_advisor = models.ForeignKey(
         ServiceAdvisor,
@@ -68,13 +68,7 @@ class Order(models.Model):
         null=True,
         related_name="orders"
     )
-    technician = models.ForeignKey(
-        Technician,
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
-        related_name="orders"
-    )
+    technicians = models.ManyToManyField(Technician, related_name="orders")
 
     class Meta:
         ordering = ["-created_at"]
