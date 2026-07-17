@@ -1,6 +1,7 @@
 from django.urls import path
 
 from . import views
+from .views import toggle_assign_to_order
 
 app_name = "autoservice"
 
@@ -32,5 +33,6 @@ urlpatterns = [
     path("order-type/<int:pk>/delete/", views.OrderTypeDeleteView.as_view(), name="order-type-delete"),
     path("accounts/profile/", views.profile_redirect_view, name="profile-redirect"),
     path("archive/", views.OrderArchiveListView.as_view(), name="order-archive-list"),
-path("orders/<int:pk>/restore/", views.OrderRestoreView.as_view(), name="order-restore"),
+    path("orders/<int:pk>/restore/", views.OrderRestoreView.as_view(), name="order-restore"),
+    path("order/<int:pk>/toggle-assign/", toggle_assign_to_order, name="toggle-order-assign"),
 ]

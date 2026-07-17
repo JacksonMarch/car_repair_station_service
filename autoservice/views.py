@@ -39,12 +39,16 @@ def index(request):
 class OrderListView(LoginRequiredMixin, generic.ListView):
     model = Order
     paginate_by = 5
+    template_name = "autoservice/order/list.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         client_full_name = self.request.GET.get("client_full_name", "")
         context["search_form"] = OrderSearchForm(
             initial={"client_full_name": client_full_name})
+        service_advisor_id = self.request.GET.get("service_advisor_id")
+        if service_advisor_id:
+            context["service_advisor"] = get_object_or_404(ServiceAdvisor, id=service_advisor_id)
         return context
 
     def get_queryset(self):
@@ -64,16 +68,19 @@ class OrderListView(LoginRequiredMixin, generic.ListView):
 
 class OrderDetailView(LoginRequiredMixin, generic.DetailView):
     model = Order
+    template_name = "autoservice/order/detail.html"
 
 
 class OrderCreateView(LoginRequiredMixin, generic.CreateView):
     model = Order
     form_class = OrderForm
+    template_name = "autoservice/order/form.html"
 
 
 class OrderUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Order
     fields = "__all__"
+    template_name = "autoservice/order/form.html"
 
 
 class OrderDeleteView(LoginRequiredMixin, generic.DeleteView):
@@ -86,6 +93,7 @@ class OrderDeleteView(LoginRequiredMixin, generic.DeleteView):
         self.object.is_archived = True
         self.object.save()
         return HttpResponseRedirect(success_url)
+    template_name = "autoservice/order/confirm_delete.html"
 
 
 class TechnicianListView(LoginRequiredMixin, generic.ListView):
@@ -107,15 +115,17 @@ class TechnicianListView(LoginRequiredMixin, generic.ListView):
         if master_qualification:
             queryset = queryset.filter(master_qualification__name__icontains=master_qualification)
         return queryset
+    template_name = "autoservice/technician/list.html"
 
 
 class TechnicianDetailView(LoginRequiredMixin, generic.DetailView):
     model = Technician
+    template_name = "autoservice/technician/detail.html"
 
 
 class TechnicianOrderListView(LoginRequiredMixin, generic.ListView):
     model = Technician
-    template_name = "autoservice/technician_order.html"
+    template_name = "autoservice/technician/order.html"
 
     def get_queryset(self):
         technician_id = self.kwargs["pk"]
@@ -130,22 +140,25 @@ class TechnicianOrderListView(LoginRequiredMixin, generic.ListView):
 class TechnicianCreateView(LoginRequiredMixin, generic.CreateView):
     model = Technician
     fields = "__all__"
+    template_name = "autoservice/technician/form.html"
 
 
 class TechnicianUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Technician
     fields = "__all__"
+    template_name = "autoservice/technician/form.html"
 
 
 class TechnicianDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Technician
     success_url = reverse_lazy("autoservice:technician-list")
+    template_name = "autoservice/technician/confirm_delete.html"
 
 
 class ServiceAdvisorListView(LoginRequiredMixin, generic.ListView):
     model = ServiceAdvisor
     queryset = ServiceAdvisor.objects.select_related("order")
-    template_name = "autoservice/service_advisor_list.html"
+    template_name = "autoservice/service_advisor/list.html"
     context_object_name = "service_advisor_list"
 
     def get_queryset(self):
@@ -154,7 +167,7 @@ class ServiceAdvisorListView(LoginRequiredMixin, generic.ListView):
 
 class ServiceAdvisorDetailView(LoginRequiredMixin, generic.DetailView):
     model = ServiceAdvisor
-    template_name = "autoservice/service_advisor_detail.html"
+    template_name = "autoservice/service_advisor/detail.html"
     context_object_name = "service_advisor"
 
 
@@ -162,25 +175,25 @@ class ServiceAdvisorCreateView(LoginRequiredMixin, generic.CreateView):
     model = ServiceAdvisor
     form_class = ServiceAdvisorCreationForm
     success_url = reverse_lazy("autoservice:service-advisor-list")
-    template_name = "autoservice/service_advisor_form.html"
+    template_name = "autoservice/service_advisor/form.html"
 
 
 class ServiceAdvisorUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = ServiceAdvisor
     form_class = ServiceAdvisorUpdateForm
     success_url = reverse_lazy("autoservice:service-advisor-list")
-    template_name = "autoservice/service_advisor_form.html"
+    template_name = "autoservice/service_advisor/form.html"
 
 
 class ServiceAdvisorDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = ServiceAdvisor
     success_url = reverse_lazy("autoservice:service-advisor-list")
-    template_name = "autoservice/service_advisor_confirm_delete.html"
+    template_name = "autoservice/service_advisor/confirm_delete.html"
 
 
 class MasterQualificationListView(LoginRequiredMixin, generic.ListView):
     model = MasterQualification
-    template_name = "autoservice/master_qualification_list.html"
+    template_name = "autoservice/master_qualification/list.html"
     context_object_name = "master_qualification_list"
 
 
@@ -188,26 +201,26 @@ class MasterQualificationCreateView(LoginRequiredMixin, generic.CreateView):
     model = MasterQualification
     fields = "__all__"
     success_url = reverse_lazy("autoservice:master-qualification-list")
-    template_name = "autoservice/master_qualification_form.html"
+    template_name = "autoservice/master_qualification/form.html"
 
 
 class MasterQualificationUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = MasterQualification
     fields = "__all__"
     success_url = reverse_lazy("autoservice:master-qualification-list")
-    template_name = "autoservice/master_qualification_form.html"
+    template_name = "autoservice/master_qualification/form.html"
 
 
 class MasterQualificationDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = MasterQualification
     success_url = reverse_lazy("autoservice:master-qualification-list")
-    template_name = "autoservice/master_qualification_confirm_delete.html"
+    template_name = "autoservice/master_qualification/confirm_delete.html"
 
 
 class OrderTypeListView(LoginRequiredMixin, generic.ListView):
     model = OrderType
     paginate_by = 5
-    template_name = "autoservice/order_type_list.html"
+    template_name = "autoservice/order_type/list.html"
     context_object_name = "order_type_list"
 
 
@@ -215,20 +228,20 @@ class OrderTypeCreateView(LoginRequiredMixin, generic.CreateView):
     model = OrderType
     fields = "__all__"
     success_url = reverse_lazy("autoservice:order-type-list")
-    template_name = "autoservice/order_type_form.html"
+    template_name = "autoservice/order_type/form.html"
 
 
 class OrderTypeUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = OrderType
     fields = "__all__"
     success_url = reverse_lazy("autoservice:order-type-list")
-    template_name = "autoservice/order_type_form.html"
+    template_name = "autoservice/order_type/form.html"
 
 
 class OrderTypeDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = OrderType
     success_url = reverse_lazy("autoservice:order-type-list")
-    template_name = "autoservice/order_type_confirm_delete.html"
+    template_name = "autoservice/order_type/confirm_delete.html"
 
 
 @login_required
@@ -238,7 +251,7 @@ def profile_redirect_view(request):
 
 class OrderArchiveListView(LoginRequiredMixin, generic.ListView):
     model = Order
-    template_name = "autoservice/order_list.html"
+    template_name = "autoservice/order/list.html"
     paginate_by = 5
 
     def get_queryset(self):
@@ -266,3 +279,15 @@ class OrderRestoreView(View):
         order.is_archived = False
         order.save()
         return redirect("autoservice:order-archive-list")
+
+
+@login_required
+def toggle_assign_to_order(request, pk):
+    order = get_object_or_404(Order, id=pk)
+    if order.service_advisor == request.user:
+        order.service_advisor = None
+        order.save()
+    elif order.service_advisor is None:
+        order.service_advisor = request.user
+        order.save()
+    return redirect(request.META.get("HTTP_REFERER", "autoservice:order-list"))

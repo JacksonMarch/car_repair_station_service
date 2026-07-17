@@ -3,7 +3,9 @@
 
 {% block content %}
   <h1>
-    {% if is_archive_page %}
+    {% if service_advisor %}
+      {{ service_advisor.username }} Order List
+    {% elif is_archive_page %}
       Orders Archive
     {% else %}
       Orders List
@@ -44,5 +46,12 @@
     </table>
     {% else %}
       <p>There are no orders in the service.</p>
+    {% endif %}
+    {% if service_advisor %}
+    <div>
+      <a href="{% url 'autoservice:service-advisor-list' %}" class="btn btn-outline-secondary">
+        &larr; Back
+      </a>
+    </div>
     {% endif %}
 {% endblock %}
