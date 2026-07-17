@@ -6,6 +6,8 @@ from django.urls import reverse_lazy
 from django.views import generic, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from .forms import OrderSearchForm, TechnicianSearchForm, ServiceAdvisorCreationForm, ServiceAdvisorUpdateForm, \
+    OrderForm
 from .models import (
     Order,
     Technician,
@@ -37,11 +39,13 @@ def index(request):
 class OrderListView(LoginRequiredMixin, generic.ListView):
     model = Order
     paginate_by = 5
-    queryset = Order.objects.select_related(
-        "order_type",
-        "service_advisor",
-        "technician",
-    )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        client_full_name = self.request.GET.get("client_full_name", "")
+        context["search_form"] = OrderSearchForm(
+            initial={"client_full_name": client_full_name})
+        return context
 
     def get_queryset(self):
         queryset = Order.objects.select_related(
@@ -49,6 +53,9 @@ class OrderListView(LoginRequiredMixin, generic.ListView):
             "service_advisor",
             "technician"
         ).filter(is_archived=False)
+        client_full_name = self.request.GET.get("client_full_name")
+        if client_full_name:
+            queryset = queryset.filter(client_full_name__icontains=client_full_name)
         service_advisor_id = self.request.GET.get("service_advisor_id")
         if service_advisor_id:
             queryset = queryset.filter(service_advisor_id=service_advisor_id)
@@ -61,7 +68,7 @@ class OrderDetailView(LoginRequiredMixin, generic.DetailView):
 
 class OrderCreateView(LoginRequiredMixin, generic.CreateView):
     model = Order
-    fields = "__all__"
+    form_class = OrderForm
 
 
 class OrderUpdateView(LoginRequiredMixin, generic.UpdateView):
@@ -85,12 +92,21 @@ class TechnicianListView(LoginRequiredMixin, generic.ListView):
     model = Technician
     paginate_by = 5
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        master_qualification = self.request.GET.get("master_qualification", "")
+        context["search_form"] = TechnicianSearchForm(initial={"master_qualification": master_qualification})
+        return context
 
     def get_queryset(self):
         all_orders = Order.objects.all()
-        return Technician.objects.prefetch_related(
+        queryset = Technician.objects.prefetch_related(
             Prefetch("orders", queryset=all_orders, to_attr="assigned_orders")
         )
+        master_qualification = self.request.GET.get("master_qualification")
+        if master_qualification:
+            queryset = queryset.filter(master_qualification__name__icontains=master_qualification)
+        return queryset
 
 
 class TechnicianDetailView(LoginRequiredMixin, generic.DetailView):
@@ -144,14 +160,14 @@ class ServiceAdvisorDetailView(LoginRequiredMixin, generic.DetailView):
 
 class ServiceAdvisorCreateView(LoginRequiredMixin, generic.CreateView):
     model = ServiceAdvisor
-    fields = "__all__"
+    form_class = ServiceAdvisorCreationForm
     success_url = reverse_lazy("autoservice:service-advisor-list")
     template_name = "autoservice/service_advisor_form.html"
 
 
 class ServiceAdvisorUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = ServiceAdvisor
-    fields = "__all__"
+    form_class = ServiceAdvisorUpdateForm
     success_url = reverse_lazy("autoservice:service-advisor-list")
     template_name = "autoservice/service_advisor_form.html"
 
@@ -226,13 +242,21 @@ class OrderArchiveListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        return Order.objects.select_related(
-            "order_type", "service_advisor", "technician"
+        queryset = Order.objects.select_related(
+            "order_type",
+            "service_advisor",
+            "technician"
         ).filter(is_archived=True)
+        client_full_name = self.request.GET.get("client_full_name")
+        if client_full_name:
+            queryset = queryset.filter(client_full_name__icontains=client_full_name)
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["is_archive_page"] = True
+        client_full_name = self.request.GET.get("client_full_name", "")
+        context["search_form"] = OrderSearchForm(initial={"client_full_name": client_full_name})
         return context
 
 
