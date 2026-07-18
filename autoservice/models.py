@@ -51,6 +51,9 @@ class Technician(models.Model):
     def get_absolute_url(self):
         return reverse("autoservice:technician-detail", kwargs={"pk": self.pk})
 
+    def active_orders_count(self):
+        return self.orders.filter(is_archived=False).count()
+
 
 class Order(models.Model):
     client_full_name = models.CharField(max_length=60)

@@ -30,7 +30,7 @@
         <td>
           {% if technician.assigned_orders %}
             <a href="{% url 'autoservice:technician-order' technician.pk %}" class="btn btn-primary">
-                  Orders details ({{ technician.assigned_orders|length }})
+                  Orders details ({{ technician.active_orders_count }})
             </a>
           {% else %}
             <span class="text-success font-weight-bold">Free</span>

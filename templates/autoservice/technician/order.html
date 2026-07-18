@@ -8,17 +8,6 @@
 
   <h2>
     Active orders:
-{##}
-{#    {% if car in user.cars.all %}#}
-{#      <a href="{% url 'taxi:toggle-car-assign' pk=car.id %}" class="btn btn-danger link-to-page">#}
-{#        Delete me from this car#}
-{#      </a>#}
-{#    {% else %}#}
-{#      <a href="{% url 'taxi:toggle-car-assign' pk=car.id %}" class="btn btn-success link-to-page">#}
-{#        Assign me from this car#}
-{#      </a>#}
-{#    {% endif %}#}
-
   </h2>
     <table class="table">
     <tr>
@@ -29,13 +18,19 @@
       <th>Order type</th>
       <th>Service advisor</th>
     </tr>
-  {% for order in technician.orders.all %}
+  {% for order in object_list %}
     <tr>
       <td>{{ order.id }}</td>
       <td>{{ order.car_model }} {{ order.car_year }}</td>
       <td>{{ order.complaint }}</td>
       <td>{{ order.client_full_name }}</td>
-      <td>{{ order.order_type }}</td>
+      <td>
+        {% for type in order.order_types.all %}
+          {{ type.name }}{% if not forloop.last %}, {% endif %}
+        {% empty %}
+          <span class="text-muted">Not assigned</span>
+        {% endfor %}
+      </td>
       <td>{{ order.service_advisor }}</td>
     </tr>
   {% endfor %}

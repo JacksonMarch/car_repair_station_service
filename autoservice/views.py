@@ -108,9 +108,9 @@ class TechnicianListView(LoginRequiredMixin, generic.ListView):
         return context
 
     def get_queryset(self):
-        all_orders = Order.objects.all()
+        active_orders = Order.objects.filter(is_archived=False)
         queryset = Technician.objects.prefetch_related(
-            Prefetch("orders", queryset=all_orders, to_attr="assigned_orders")
+            Prefetch("orders", queryset=active_orders, to_attr="assigned_orders")
         )
         master_qualification = self.request.GET.get("master_qualification")
         if master_qualification:
@@ -129,8 +129,13 @@ class TechnicianOrderListView(LoginRequiredMixin, generic.ListView):
     template_name = "autoservice/technician/order.html"
 
     def get_queryset(self):
-        technician_id = self.kwargs["pk"]
-        return Order.objects.filter(technician_id=technician_id)
+        return Order.objects.filter(
+            technicians__id=self.kwargs["pk"],
+            is_archived=False
+        ).prefetch_related(
+            "order_types",
+            "technicians"
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -261,7 +266,7 @@ class OrderArchiveListView(LoginRequiredMixin, generic.ListView):
         ).prefetch_related(
             "order_types",
             "technicians"
-        ).filter(is_archived=False)
+        ).filter(is_archived=True)
         client_full_name = self.request.GET.get("client_full_name")
         if client_full_name:
             queryset = queryset.filter(client_full_name__icontains=client_full_name)
