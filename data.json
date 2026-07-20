@@ -1,0 +1,523 @@
+[
+  {
+    "model": "autoservice.masterqualification",
+    "pk": 1,
+    "fields": { "name": "Electrical Diagnostician" }
+  },
+  {
+    "model": "autoservice.masterqualification",
+    "pk": 2,
+    "fields": { "name": "Engine Specialist" }
+  },
+  {
+    "model": "autoservice.masterqualification",
+    "pk": 3,
+    "fields": { "name": "Suspension Specialist" }
+  },
+  {
+    "model": "autoservice.masterqualification",
+    "pk": 4,
+    "fields": { "name": "Transmission Specialist" }
+  },
+  {
+    "model": "autoservice.masterqualification",
+    "pk": 5,
+    "fields": { "name": "HVAC Specialist" }
+  },
+
+  {
+    "model": "autoservice.ordertype",
+    "pk": 1,
+    "fields": { "name": "Computer Diagnostics" }
+  },
+  {
+    "model": "autoservice.ordertype",
+    "pk": 2,
+    "fields": { "name": "Timing Belt Replacement" }
+  },
+  {
+    "model": "autoservice.ordertype",
+    "pk": 3,
+    "fields": { "name": "Suspension Repair" }
+  },
+  {
+    "model": "autoservice.ordertype",
+    "pk": 4,
+    "fields": { "name": "Scheduled Maintenance (Oil & Filters)" }
+  },
+  {
+    "model": "autoservice.ordertype",
+    "pk": 5,
+    "fields": { "name": "Engine Overhaul" }
+  },
+  {
+    "model": "autoservice.ordertype",
+    "pk": 6,
+    "fields": { "name": "A/C Recharge" }
+  },
+  {
+    "model": "autoservice.ordertype",
+    "pk": 7,
+    "fields": { "name": "Brake Pad Replacement" }
+  },
+  {
+    "model": "autoservice.ordertype",
+    "pk": 8,
+    "fields": { "name": "Wheel Alignment" }
+  },
+  {
+    "model": "autoservice.ordertype",
+    "pk": 9,
+    "fields": { "name": "Automatic Transmission Service" }
+  },
+  {
+    "model": "autoservice.ordertype",
+    "pk": 10,
+    "fields": { "name": "Electrical System Repair" }
+  },
+
+  {
+    "model": "autoservice.serviceadvisor",
+    "pk": 1,
+    "fields": {
+      "username": "john_advisor",
+      "password": "pbkdf2_sha256$600000$dummyhash...",
+      "first_name": "John",
+      "last_name": "Smith",
+      "email": "john@riga-auto.com",
+      "is_staff": true,
+      "is_superuser": true,
+      "is_active": true
+    }
+  },
+  {
+    "model": "autoservice.serviceadvisor",
+    "pk": 2,
+    "fields": {
+      "username": "anna_advisor",
+      "password": "pbkdf2_sha256$600000$dummyhash...",
+      "first_name": "Anna",
+      "last_name": "Williams",
+      "email": "anna@riga-auto.com",
+      "is_staff": true,
+      "is_superuser": false,
+      "is_active": true
+    }
+  },
+  {
+    "model": "autoservice.serviceadvisor",
+    "pk": 3,
+    "fields": {
+      "username": "max_advisor",
+      "password": "pbkdf2_sha256$600000$dummyhash...",
+      "first_name": "Max",
+      "last_name": "Davis",
+      "email": "max@riga-auto.com",
+      "is_staff": true,
+      "is_superuser": false,
+      "is_active": true
+    }
+  },
+
+  {
+    "model": "autoservice.technician",
+    "pk": 1,
+    "fields": {
+      "first_name": "Andrew",
+      "last_name": "Wilson",
+      "experience": "8 years. Professional computer diagnostics.",
+      "master_qualification": 1
+    }
+  },
+  {
+    "model": "autoservice.technician",
+    "pk": 2,
+    "fields": {
+      "first_name": "Victor",
+      "last_name": "Brown",
+      "experience": "12 years. Specializes in diesel engines.",
+      "master_qualification": 2
+    }
+  },
+  {
+    "model": "autoservice.technician",
+    "pk": 3,
+    "fields": {
+      "first_name": "David",
+      "last_name": "Taylor",
+      "experience": "5 years of experience. Fast and reliable.",
+      "master_qualification": 3
+    }
+  },
+  {
+    "model": "autoservice.technician",
+    "pk": 4,
+    "fields": {
+      "first_name": "Robert",
+      "last_name": "Clark",
+      "experience": "15 years. DSG and classic automatic transmission repair.",
+      "master_qualification": 4
+    }
+  },
+  {
+    "model": "autoservice.technician",
+    "pk": 5,
+    "fields": {
+      "first_name": "Alex",
+      "last_name": "Lewis",
+      "experience": "7 years. Freon recharge and leak detection.",
+      "master_qualification": 5
+    }
+  },
+  {
+    "model": "autoservice.technician",
+    "pk": 6,
+    "fields": {
+      "first_name": "Ben",
+      "last_name": "Walker",
+      "experience": "3 years. Electrician assistant.",
+      "master_qualification": 1
+    }
+  },
+  {
+    "model": "autoservice.technician",
+    "pk": 7,
+    "fields": {
+      "first_name": "Steven",
+      "last_name": "Hall",
+      "experience": "10 years. Suspension and brakes.",
+      "master_qualification": 3
+    }
+  },
+  {
+    "model": "autoservice.technician",
+    "pk": 8,
+    "fields": {
+      "first_name": "Ian",
+      "last_name": "Moore",
+      "experience": "9 years. General engine mechanic.",
+      "master_qualification": 2
+    }
+  },
+
+  {
+    "model": "autoservice.order",
+    "pk": 1,
+    "fields": {
+      "client_full_name": "William Peterson",
+      "client_number": "+37120111223",
+      "car_model": "Dacia Logan 1.5 dCi (50kW)",
+      "car_year": "2006",
+      "complaint": "Scheduled maintenance. Also need to check injectors (1.5 diesel).",
+      "created_at": "2026-07-15T09:00:00Z",
+      "is_archived": false,
+      "service_advisor": 1,
+      "order_types": [1, 4],
+      "technicians": [1, 2]
+    }
+  },
+  {
+    "model": "autoservice.order",
+    "pk": 2,
+    "fields": {
+      "client_full_name": "Helen Cooper",
+      "client_number": "+37120111224",
+      "car_model": "Škoda Roomster",
+      "car_year": "2010",
+      "complaint": "Knocking sound from the front right when driving over bumps.",
+      "created_at": "2026-07-15T10:15:00Z",
+      "is_archived": false,
+      "service_advisor": 2,
+      "order_types": [3, 8],
+      "technicians": [3, 7]
+    }
+  },
+  {
+    "model": "autoservice.order",
+    "pk": 3,
+    "fields": {
+      "client_full_name": "Michael Stone",
+      "client_number": "+37120111225",
+      "car_model": "Citroën C5",
+      "car_year": "2012",
+      "complaint": "Power window in the door glitches, doesn't go all the way down.",
+      "created_at": "2026-07-16T11:30:00Z",
+      "is_archived": false,
+      "service_advisor": 3,
+      "order_types": [10],
+      "technicians": [1, 6]
+    }
+  },
+  {
+    "model": "autoservice.order",
+    "pk": 4,
+    "fields": {
+      "client_full_name": "George Harris",
+      "client_number": "+37120123456",
+      "car_model": "Volkswagen Passat B8",
+      "car_year": "2018",
+      "complaint": "Delays when shifting DSG gears, vibration.",
+      "created_at": "2026-07-16T14:00:00Z",
+      "is_archived": false,
+      "service_advisor": 1,
+      "order_types": [1, 9],
+      "technicians": [1, 4]
+    }
+  },
+  {
+    "model": "autoservice.order",
+    "pk": 5,
+    "fields": {
+      "client_full_name": "Anastasia White",
+      "client_number": "+37120987654",
+      "car_model": "Toyota Camry",
+      "car_year": "2015",
+      "complaint": "Squeaking when braking, handbrake doesn't hold well.",
+      "created_at": "2026-07-16T15:20:00Z",
+      "is_archived": false,
+      "service_advisor": 2,
+      "order_types": [7],
+      "technicians": [7]
+    }
+  },
+  {
+    "model": "autoservice.order",
+    "pk": 6,
+    "fields": {
+      "client_full_name": "Oliver Wright",
+      "client_number": "+37120456789",
+      "car_model": "Ford Focus",
+      "car_year": "2013",
+      "complaint": "A/C blows warm air.",
+      "created_at": "2026-07-17T09:10:00Z",
+      "is_archived": false,
+      "service_advisor": 3,
+      "order_types": [6],
+      "technicians": [5]
+    }
+  },
+  {
+    "model": "autoservice.order",
+    "pk": 7,
+    "fields": {
+      "client_full_name": "Thomas King",
+      "client_number": "+37120999887",
+      "car_model": "BMW X5",
+      "car_year": "2019",
+      "complaint": "Check Engine light is on, loss of power.",
+      "created_at": "2026-07-17T10:45:00Z",
+      "is_archived": false,
+      "service_advisor": 1,
+      "order_types": [1, 5],
+      "technicians": [1, 8]
+    }
+  },
+  {
+    "model": "autoservice.order",
+    "pk": 8,
+    "fields": {
+      "client_full_name": "Irene Baker",
+      "client_number": "+37120333445",
+      "car_model": "Renault Megane",
+      "car_year": "2011",
+      "complaint": "Time to replace the timing belt and water pump.",
+      "created_at": "2026-07-17T11:00:00Z",
+      "is_archived": false,
+      "service_advisor": 2,
+      "order_types": [2, 4],
+      "technicians": [2]
+    }
+  },
+  {
+    "model": "autoservice.order",
+    "pk": 9,
+    "fields": {
+      "client_full_name": "William Roberts",
+      "client_number": "+37120112233",
+      "car_model": "Nissan Qashqai",
+      "car_year": "2014",
+      "complaint": "Steering pulls to the right at high speeds.",
+      "created_at": "2026-07-17T12:30:00Z",
+      "is_archived": false,
+      "service_advisor": 3,
+      "order_types": [3, 8],
+      "technicians": [3]
+    }
+  },
+  {
+    "model": "autoservice.order",
+    "pk": 10,
+    "fields": {
+      "client_full_name": "Sarah Adams",
+      "client_number": "+37120777665",
+      "car_model": "Hyundai Tucson",
+      "car_year": "2017",
+      "complaint": "Left headlight is out, turn signal not working.",
+      "created_at": "2026-07-17T13:15:00Z",
+      "is_archived": false,
+      "service_advisor": 1,
+      "order_types": [10],
+      "technicians": [6]
+    }
+  },
+  {
+    "model": "autoservice.order",
+    "pk": 11,
+    "fields": {
+      "client_full_name": "Boris Mitchell",
+      "client_number": "+37120555443",
+      "car_model": "Audi A6",
+      "car_year": "2016",
+      "complaint": "Heavy smoke from exhaust, high oil consumption.",
+      "created_at": "2026-07-17T14:40:00Z",
+      "is_archived": false,
+      "service_advisor": 2,
+      "order_types": [1, 5],
+      "technicians": [1, 8]
+    }
+  },
+  {
+    "model": "autoservice.order",
+    "pk": 12,
+    "fields": {
+      "client_full_name": "Natalie Turner",
+      "client_number": "+37120888990",
+      "car_model": "Mazda 3",
+      "car_year": "2014",
+      "complaint": "Periodic maintenance: oil and filter change, suspension diagnostics.",
+      "created_at": "2026-07-17T15:20:00Z",
+      "is_archived": false,
+      "service_advisor": 3,
+      "order_types": [3, 4],
+      "technicians": [7]
+    }
+  },
+  {
+    "model": "autoservice.order",
+    "pk": 13,
+    "fields": {
+      "client_full_name": "Max Phillips",
+      "client_number": "+37120222334",
+      "car_model": "Kia Sportage",
+      "car_year": "2018",
+      "complaint": "Hard shifting from first to second gear.",
+      "created_at": "2026-07-17T16:00:00Z",
+      "is_archived": false,
+      "service_advisor": 1,
+      "order_types": [9],
+      "technicians": [4]
+    }
+  },
+  {
+    "model": "autoservice.order",
+    "pk": 14,
+    "fields": {
+      "client_full_name": "Victoria Campbell",
+      "client_number": "+37120444556",
+      "car_model": "Honda Civic",
+      "car_year": "2008",
+      "complaint": "Noise around the alternator.",
+      "created_at": "2026-07-18T09:00:00Z",
+      "is_archived": false,
+      "service_advisor": 2,
+      "order_types": [10, 5],
+      "technicians": [2, 6]
+    }
+  },
+  {
+    "model": "autoservice.order",
+    "pk": 15,
+    "fields": {
+      "client_full_name": "Paul Evans",
+      "client_number": "+37120666778",
+      "car_model": "Opel Astra",
+      "car_year": "2010",
+      "complaint": "Doesn't start when the engine is cold.",
+      "created_at": "2026-07-18T09:30:00Z",
+      "is_archived": false,
+      "service_advisor": 3,
+      "order_types": [1, 5],
+      "technicians": [1, 2]
+    }
+  },
+  {
+    "model": "autoservice.order",
+    "pk": 16,
+    "fields": {
+      "client_full_name": "Christine Edwards",
+      "client_number": "+37120888776",
+      "car_model": "Peugeot 308",
+      "car_year": "2015",
+      "complaint": "Oil change and A/C diagnostics.",
+      "created_at": "2026-07-18T10:15:00Z",
+      "is_archived": false,
+      "service_advisor": 1,
+      "order_types": [4, 6],
+      "technicians": [5, 7]
+    }
+  },
+  {
+    "model": "autoservice.order",
+    "pk": 17,
+    "fields": {
+      "client_full_name": "Gregory Collins",
+      "client_number": "+37120123987",
+      "car_model": "Mitsubishi Lancer",
+      "car_year": "2007",
+      "complaint": "Dull thud from the rear.",
+      "created_at": "2026-07-18T11:00:00Z",
+      "is_archived": false,
+      "service_advisor": 2,
+      "order_types": [3],
+      "technicians": [3]
+    }
+  },
+  {
+    "model": "autoservice.order",
+    "pk": 18,
+    "fields": {
+      "client_full_name": "Diana Stewart",
+      "client_number": "+37120555221",
+      "car_model": "Volvo XC60",
+      "car_year": "2020",
+      "complaint": "ABS sensor error.",
+      "created_at": "2026-07-18T11:45:00Z",
+      "is_archived": false,
+      "service_advisor": 3,
+      "order_types": [1, 10],
+      "technicians": [1, 6]
+    }
+  },
+  {
+    "model": "autoservice.order",
+    "pk": 19,
+    "fields": {
+      "client_full_name": "Arthur Sanchez",
+      "client_number": "+37120999112",
+      "car_model": "Subaru Forester",
+      "car_year": "2012",
+      "complaint": "Oil leaking from the valve cover.",
+      "created_at": "2026-07-18T12:20:00Z",
+      "is_archived": false,
+      "service_advisor": 1,
+      "order_types": [5],
+      "technicians": [8]
+    }
+  },
+  {
+    "model": "autoservice.order",
+    "pk": 20,
+    "fields": {
+      "client_full_name": "Catherine Morris",
+      "client_number": "+37120888113",
+      "car_model": "Mercedes-Benz E-Class",
+      "car_year": "2016",
+      "complaint": "Steering wheel vibration when braking.",
+      "created_at": "2026-07-18T13:00:00Z",
+      "is_archived": false,
+      "service_advisor": 2,
+      "order_types": [3, 7, 8],
+      "technicians": [3, 7]
+    }
+  }
+]
