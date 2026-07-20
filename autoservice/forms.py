@@ -1,7 +1,5 @@
 from django import forms
-from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
-
 from autoservice.models import ServiceAdvisor, Order, OrderType, Technician
 
 
@@ -30,7 +28,9 @@ class OrderSearchForm(forms.Form):
         max_length=100,
         required=False,
         label="",
-        widget=forms.TextInput(attrs={"placeholder": "Search by client name"}),
+        widget=forms.TextInput(
+            attrs={"placeholder": "Search by client name"}
+        ),
     )
 
 
@@ -39,7 +39,9 @@ class TechnicianSearchForm(forms.Form):
         max_length=100,
         required=False,
         label="",
-        widget=forms.TextInput(attrs={"placeholder": "Search by qualification"}),
+        widget=forms.TextInput(
+            attrs={"placeholder": "Search by qualification"}
+        ),
     )
 
 

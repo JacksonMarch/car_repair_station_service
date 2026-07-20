@@ -28,12 +28,13 @@ class ServiceAdvisor(AbstractUser):
     class Meta:
         ordering = ["username"]
 
-
     def __str__(self):
         return f"{self.username} ({self.first_name} {self.last_name})"
 
     def get_absolute_url(self):
-        return reverse("autoservice:service-advisor-detail", kwargs={"pk": self.pk})
+        return reverse(
+            "autoservice:service-advisor-detail", kwargs={"pk": self.pk}
+        )
 
     @property
     def active_orders_count(self):
@@ -43,17 +44,23 @@ class ServiceAdvisor(AbstractUser):
 class Technician(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    master_qualification = models.ForeignKey(MasterQualification, on_delete=models.CASCADE)
+    master_qualification = models.ForeignKey(
+        MasterQualification, on_delete=models.CASCADE
+    )
     experience = models.TextField(blank=True)
 
     class Meta:
         ordering = ["master_qualification"]
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name} ({self.master_qualification})"
+        return (f"{self.first_name} {self.last_name}"
+                f" ({self.master_qualification})"
+                )
 
     def get_absolute_url(self):
-        return reverse("autoservice:technician-detail", kwargs={"pk": self.pk})
+        return reverse(
+            "autoservice:technician-detail", kwargs={"pk": self.pk}
+        )
 
     def active_orders_count(self):
         return self.orders.filter(is_archived=False).count()
@@ -81,7 +88,10 @@ class Order(models.Model):
         ordering = ["-created_at"]
 
     def __str__(self):
-        return f"{self.created_at} {self.car_model} {self.car_year} {self.client_full_name} {self.client_number}"
+        return (f"{self.created_at} {self.car_model}"
+                f" {self.car_year} {self.client_full_name}"
+                f" {self.client_number}"
+                )
 
     def get_absolute_url(self):
         return reverse("autoservice:order-detail", kwargs={"pk": self.pk})

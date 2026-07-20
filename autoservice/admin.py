@@ -44,12 +44,17 @@ class OrderAdmin(admin.ModelAdmin):
     date_hierarchy = "created_at"
 
     def display_technicians(self, obj):
-        return ", ".join([f"{tech.first_name} {tech.last_name}" for tech in obj.technicians.all()])
+        return ", ".join(
+            [f"{tech.first_name} {tech.last_name}" for tech in obj.technicians.all()]
+        )
     display_technicians.short_description = "Technicians"
 
-    def display_order_types(selfself, obj):
-        return ", ".join([order_type.name for order_type in obj.order_types.all()])
+    def display_order_types(self, obj):
+        return ", ".join(
+            [order_type.name for order_type in obj.order_types.all()]
+        )
     display_order_types.short_description = "Order Types"
+
 
 admin.site.register(Technician)
 admin.site.register(OrderType)
