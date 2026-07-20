@@ -1,25 +1,47 @@
-<ul class="sidebar-nav list-group">
-  {% if user.is_authenticated %}
-    <li class="list-group-item">User: <a href="{{ user.get_absolute_url }}">{{ user.get_username }}</a></li>
-    <li class="list-group-item">
-      <form action="{% url 'logout' %}" method="post" style="display: inline;">
+<div class="sidebar-nav">
+
+  <div class="mb-4 pb-3 border-bottom text-center">
+    {% if user.is_authenticated %}
+      <p class="text-secondary mb-2">
+        User: <a href="{{ user.get_absolute_url }}" class="text-dark fw-bold text-decoration-none">{{ user.get_username }}</a>
+      </p>
+      <form action="{% url 'logout' %}" method="post">
         {% csrf_token %}
-        <button type="submit" style="background: none; border: none; padding: 0; color: #0d6efd; cursor: pointer;">
-          Logout
-        </button>
+        <button type="submit" class="btn btn-sm btn-outline-danger w-100">Logout</button>
       </form>
-    </li>
-  {% else %}
-    <li class="list-group-item"><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
-  {% endif %}
+    {% else %}
+      {% url 'logout' as logout_url %}
+      {% url 'login' as login_url %}
 
-  <br>
+      {% if request.path == logout_url or request.path == login_url %}
+        <a href="{{ login_url }}" class="btn btn-sm btn-primary w-100">Login</a>
+      {% else %}
+        <a href="{{ login_url }}?next={{ request.path }}" class="btn btn-sm btn-primary w-100">Login</a>
+      {% endif %}
+    {% endif %}
+  </div>
 
-  <li class="list-group-item"><a href="{% url 'autoservice:index' %}">Home</a></li>
-  <li class="list-group-item"><a href="{% url 'autoservice:order-list' %}">All orders</a></li>
-  <li class="list-group-item"><a href="{% url 'autoservice:technician-list' %}">Technicians</a></li>
-  <li class="list-group-item"><a href="{% url 'autoservice:service-advisor-list' %}">Service advisors</a></li>
-  <li class="list-group-item"><a href="{% url 'autoservice:master-qualification-list' %}">Qualifications</a></li>
-  <li class="list-group-item"><a href="{% url 'autoservice:order-type-list' %}">Order types</a></li>
-  <li class="list-group-item"><a href="{% url 'autoservice:order-archive-list' %}">Order Archive</a></li>
-</ul>
+  <div class="list-group list-group-flush gap-1">
+    <a href="{% url 'autoservice:index' %}" class="list-group-item list-group-item-action border-0 rounded text-secondary fw-medium">
+      Home
+    </a>
+    <a href="{% url 'autoservice:order-list' %}" class="list-group-item list-group-item-action border-0 rounded text-secondary fw-medium">
+      All orders
+    </a>
+    <a href="{% url 'autoservice:technician-list' %}" class="list-group-item list-group-item-action border-0 rounded text-secondary fw-medium">
+      Technicians
+    </a>
+    <a href="{% url 'autoservice:service-advisor-list' %}" class="list-group-item list-group-item-action border-0 rounded text-secondary fw-medium">
+      Service advisors
+    </a>
+    <a href="{% url 'autoservice:master-qualification-list' %}" class="list-group-item list-group-item-action border-0 rounded text-secondary fw-medium">
+      Qualifications
+    </a>
+    <a href="{% url 'autoservice:order-type-list' %}" class="list-group-item list-group-item-action border-0 rounded text-secondary fw-medium">
+      Order types
+    </a>
+    <a href="{% url 'autoservice:order-archive-list' %}" class="list-group-item list-group-item-action border-0 rounded text-secondary fw-medium">
+      Order Archive
+    </a>
+  </div>
+</div>

@@ -1,14 +1,41 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Delete Technician?</h1>
-  <p>In all Orders where this Technician was used, the value will change to NULL.</p>
-  <form action="" method="post">
-    {% csrf_token %}
+<div class="row justify-content-center mt-5 pt-4">
+  <div class="col-md-6 col-lg-5">
+    <div class="card shadow border-0 rounded-4">
+      <div class="card-body p-5 text-center">
 
-    <input type="submit" value="Yes" class="btn btn-danger">
-    <a href="{{ request.GET.next|default:'/' }}" class="btn btn-success">
-      Cancel
-    </a>
-  </form>
+        <div class="mb-4">
+          <span class="bg-danger-subtle text-danger rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+            <span class="fs-1 fw-bold">!</span>
+          </span>
+        </div>
+
+        <h2 class="fw-bold text-dark mb-3">Delete Technician?</h2>
+
+        <div class="alert alert-warning py-2 mb-3 small fw-medium">
+          In all Orders where this Technician was used, the value will change to NULL.
+        </div>
+
+        <p class="text-muted mb-4 fs-5">
+          Are you sure you want to proceed?
+        </p>
+
+        <form action="" method="post" class="d-flex gap-3 justify-content-center mt-4">
+          {% csrf_token %}
+
+          <a href="{{ request.GET.next|default:'/' }}" class="btn btn-outline-secondary px-4 py-2 fw-medium flex-grow-1">
+            Cancel
+          </a>
+
+          <button type="submit" class="btn btn-danger px-4 py-2 fw-medium flex-grow-1 shadow-sm">
+            Yes, Delete
+          </button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
