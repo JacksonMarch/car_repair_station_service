@@ -35,6 +35,10 @@ class ServiceAdvisor(AbstractUser):
     def get_absolute_url(self):
         return reverse("autoservice:service-advisor-detail", kwargs={"pk": self.pk})
 
+    @property
+    def active_orders_count(self):
+        return self.orders.filter(is_archived=False).count()
+
 
 class Technician(models.Model):
     first_name = models.CharField(max_length=50)
