@@ -75,7 +75,15 @@
                 <span class="badge border text-success bg-light d-inline-block px-2 py-2 me-1">Not assigned</span>
               {% endfor %}
             </td>
-            <td>{{ order.service_advisor }}</td>
+            <td>
+              {% if order.service_advisor %}
+                <span class="badge border text-secondary bg-light d-inline-block px-2 py-2 me-1 my-1">
+                  {{ order.service_advisor }}
+                </span>
+              {% else %}
+                <span class="badge border text-success bg-light d-inline-block px-2 py-2 me-1">Not assigned</span>
+              {% endif %}
+            </td>
             <td>
               {% for tech in order.technicians.all %}
                 <span class="badge border text-secondary bg-light d-inline-block px-2 py-2 me-1 my-1">
