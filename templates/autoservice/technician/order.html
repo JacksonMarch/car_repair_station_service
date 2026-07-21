@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="mb-4">
+  <a href="{% url 'autoservice:technician-list' %}" class="btn btn-sm btn-outline-secondary mb-3">
+    &larr; Back to technicians
+  </a>
+  <h2 class="mb-0 text-dark fw-bold">Active orders</h2>
+  <p class="text-muted fs-5 mb-0">Technician: <span class="fw-bold text-dark">{{ technician.first_name }} {{ technician.last_name }}</span> ({{ technician.master_qualification }})</p>
+</div>
+
+<div class="card shadow-sm border-0 mb-4">
+  <div class="card-body p-0 table-responsive">
+    {% if object_list %}
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light text-secondary">
+        <tr>
+          <th class="ps-4">ID</th>
+          <th>Car</th>
+          <th>Complaint</th>
+          <th>Fullname</th>
+          <th>Order type</th>
+          <th class="pe-4">Service advisor</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for order in object_list %}
+          <tr>
+            <td class="ps-4 fw-bold">#{{ order.id }}</td>
+            <td class="fw-medium text-dark">{{ order.car_model }} <span class="text-muted">({{ order.car_year }})</span></td>
+            <td>{{ order.complaint }}</td>
+            <td>{{ order.client_full_name }}</td>
+            <td>
+              {% for type in order.order_types.all %}
+                <span class="badge border bg-light text-dark d-inline-block px-2 py-1 my-1">
+                  {{ type.name }}
+                </span>
+              {% empty %}
+                <span class="text-muted small">Not assigned</span>
+              {% endfor %}
+            </td>
+            <td class="pe-4">{{ order.service_advisor }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <div class="text-center py-5 text-muted">
+        <p class="fs-5 mb-0">This technician currently has no active orders.</p>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

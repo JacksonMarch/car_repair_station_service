@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="mb-0 text-dark fw-bold">Service advisors</h2>
+  <a href="{% url 'autoservice:service-advisor-create' %}" class="btn btn-primary shadow-sm px-4">
+    + Create
+  </a>
+</div>
+
+<div class="card shadow-sm border-0 mb-4">
+  <div class="card-body p-0 table-responsive">
+    {% if service_advisor_list %}
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light text-secondary">
+        <tr>
+          <th class="ps-4">ID</th>
+          <th>Full name</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th class="pe-4">Active orders</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for service_advisor in service_advisor_list %}
+          <tr>
+            <td class="ps-4 text-muted">#{{ service_advisor.id }}</td>
+            <td class="fw-medium text-dark">{{ service_advisor.first_name }} {{ service_advisor.last_name }}</td>
+            <td class="fw-bold">
+              <a href="{{ service_advisor.get_absolute_url }}" class="text-decoration-none">
+                {{ service_advisor.username }}
+              </a>
+              {% if user == service_advisor %}
+                <span class="badge bg-primary ms-2 rounded-pill small">Me</span>
+              {% endif %}
+            </td>
+            <td>{{ service_advisor.email }}</td>
+            <td class="pe-4">
+              <a href="{% url 'autoservice:order-list' %}?service_advisor_id={{ service_advisor.id }}" class="btn btn-sm btn-outline-primary fw-medium">
+                View orders
+              </a>
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <div class="text-center py-5 text-muted">
+        <p class="fs-5 mb-0">There are no service advisors on autoservice</p>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

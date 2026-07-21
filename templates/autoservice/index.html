@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="bg-white p-5 rounded-4 shadow-sm mb-4 border-top border-primary border-5">
+  <h1 class="display-5 fw-bold text-dark mb-3">Welcome back, {{ user.get_username }}!</h1>
+  <p class="fs-5 text-muted">Here is the current overview of your AutoService.</p>
+
+  <hr class="my-4 text-light">
+
+  <div class="d-flex flex-wrap gap-5 mb-5 mt-2">
+    <div class="pe-5 border-end">
+      <p class="text-secondary mb-1 text-uppercase fw-semibold" style="letter-spacing: 1px; font-size: 0.85rem;">
+        Total Orders
+      </p>
+      <h2 class="fw-bold text-dark mb-0 display-6">{{ num_orders }}</h2>
+    </div>
+    <div>
+      <p class="text-secondary mb-1 text-uppercase fw-semibold" style="letter-spacing: 1px; font-size: 0.85rem;">
+        Active Orders
+      </p>
+      <h2 class="fw-bold text-primary mb-0 display-6">{{ active_orders_count }}</h2>
+    </div>
+  </div>
+
+  <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-3">
+    <a href="{% url 'autoservice:order-create' %}" class="btn btn-primary px-4 py-2 fw-medium shadow-sm">
+      + Create Order
+    </a>
+    <span class="text-muted small">
+      You have visited this page {{ num_visits }} time{{ num_visits|pluralize }}.
+    </span>
+  </div>
+</div>
+{% endblock %}

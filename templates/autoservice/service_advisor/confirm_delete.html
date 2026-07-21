@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center mt-5 pt-4">
+  <div class="col-md-6 col-lg-5">
+
+    <div class="card shadow border-0 rounded-4">
+      <div class="card-body p-5 text-center">
+
+        <div class="mb-4">
+          <span class="bg-danger-subtle text-danger rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+            <span class="fs-1 fw-bold">!</span>
+          </span>
+        </div>
+
+        <h2 class="fw-bold text-dark mb-3">Delete Service Advisor?</h2>
+
+        <div class="alert alert-warning py-2 mb-3 small fw-medium">
+          If you delete this Service advisor, this account will be lost, and all orders that were linked in the "Service advisor" field will be set to NULL.
+        </div>
+
+        <p class="text-muted mb-4 fs-5">
+          Are you sure you want to proceed?
+        </p>
+
+        <form action="" method="post" class="d-flex gap-3 justify-content-center mt-4">
+          {% csrf_token %}
+
+          <a href="{{ request.GET.next|default:'/' }}" class="btn btn-outline-secondary px-4 py-2 fw-medium flex-grow-1">
+            Cancel
+          </a>
+
+          <button type="submit" class="btn btn-danger px-4 py-2 fw-medium flex-grow-1 shadow-sm">
+            Yes, Delete
+          </button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
