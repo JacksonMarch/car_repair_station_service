@@ -24,10 +24,12 @@ from .models import (
 
 @login_required
 def index(request):
-    num_orders = Order.objects.count()
+    num_orders = Order.objects.filter(is_archived=False).count()
     active_orders_count = Order.objects.filter(
-        technicians__isnull=False
-    ).count()
+        technicians__isnull=False,
+        is_archived=False,
+        service_advisor__isnull=False,
+    ).distinct().count()
 
     num_visits = request.session.get("num_visits", 0)
     request.session["num_visits"] = num_visits + 1

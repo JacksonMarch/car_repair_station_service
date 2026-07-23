@@ -45,7 +45,9 @@ class Technician(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     master_qualification = models.ForeignKey(
-        MasterQualification, on_delete=models.CASCADE
+        MasterQualification,
+        on_delete=models.SET_NULL,
+        null=True
     )
     experience = models.TextField(blank=True)
 
