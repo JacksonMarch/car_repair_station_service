@@ -271,7 +271,7 @@ class OrderTypeDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 @login_required
 def profile_redirect_view(request):
-    return redirect('autoservice:service-advisor-detail', pk=request.user.pk)
+    return redirect("autoservice:service-advisor-detail", pk=request.user.pk)
 
 
 class OrderArchiveListView(LoginRequiredMixin, generic.ListView):
