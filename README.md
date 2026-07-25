@@ -3,6 +3,12 @@
 ## Project Overview
 This application is a professional management tool designed for car service stations. It streamlines daily operations for service advisors and master technicians by providing a centralized system to track vehicle maintenance, technician assignments, and service history.
 
+**Live Demo:** https://car-service-lj92.onrender.com/
+
+**Test User Credentials:**
+* **Username:** `max-advisor`
+* **Password:** `1qazcde3`
+
 ## Problems Solved
 *   **Operational Inefficiency:** Eliminated manual tracking of vehicle service status and technician workload.
 *   **Resource Allocation:** Resolved issues with assigning multiple technicians to complex jobs through a Many-to-Many relationship structure.
