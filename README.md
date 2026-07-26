@@ -6,7 +6,7 @@ This application is a professional management tool designed for car service stat
 **Live Demo:** https://car-service-lj92.onrender.com/
 
 **Test User Credentials:**
-* **Username:** `max-advisor`
+* **Username:** `max_advisor`
 * **Password:** `1qazcde3`
 
 ## Problems Solved
